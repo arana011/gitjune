@@ -1,0 +1,124 @@
+-- q1
+Select S.customer_id, sum(m.price) as spent_money
+From Menu m
+join Sales s
+On m.product_id = s.product_id
+group by 1
+
+
+
+-- q2
+Select customer_id, count(distinct(order_date)) as customer_visit
+From Sales
+Group by customer_id
+
+
+
+
+
+-- q-3
+SELECT s.customer_id
+    , m.product_name
+FROM sales s
+JOIN menu m 
+ON m.product_id = s.product_id
+WHERE s.order_date IN (
+    SELECT MIN(order_date)
+    FROM sales
+    GROUP BY customer_id) 
+
+-- or
+With Rank1 as
+(
+Select S.customer_id, 
+       M.product_name, 
+       S.order_date,
+       DENSE_RANK() OVER (PARTITION BY S.Customer_ID Order by S.order_date) as rank1
+From Menu m
+join Sales s
+On m.product_id = s.product_id
+group by S.customer_id, M.product_name,S.order_date
+)
+Select Customer_id, product_name
+From Rank1
+Where rank1 = 1
+
+
+
+
+
+
+    
+-- q-4)
+Select  m.product_name , count(s.product_id) as items_count from sales s
+join menu m
+On m.product_id = s.product_id
+Group by 1
+Order by 2 desc
+
+
+-- Q5)which item was the most popular for each customer?
+select * from
+(
+Select s.customer_ID ,
+       m.product_name, 
+       count(m.product_id) as product_count,
+       Dense_rank()  Over (Partition by s.Customer_ID order by Count(s.product_id) desc) as Rank1
+From Sales s
+join menu m
+On m.product_id = s.product_id
+-- group by S.customer_id,S.product_id,M.product_name
+group by 1,2,s.product_id
+) as popular_items
+where Rank1 = 1
+
+
+-- q6  Which item was purchased first by the customer after they became a member?
+
+select * from
+(Select S.customer_id,
+        M.product_name, mem.join_date,
+	    Dense_rank() OVER (Partition by S.Customer_id Order by S.Order_date) as rank1
+From Sales S
+Join Menu M
+ON m.product_id = s.product_id
+JOIN Members Mem
+ON Mem.Customer_id = S.customer_id
+Where S.order_date >= Mem.join_date  
+) as pic
+Where rank1 = 1
+
+
+
+
+-- q7) Which item was purchased just before the customer became a member?
+select * from
+(Select S.customer_id,
+        M.product_name, mem.join_date,
+	    Dense_rank() OVER (Partition by S.Customer_id Order by S.Order_date) as rank1
+From Sales S
+Join Menu M
+ON m.product_id = s.product_id
+JOIN Members Mem
+ON Mem.Customer_id = S.customer_id
+Where S.order_date < Mem.join_date  
+) as pbc
+Where rank1 = 1
+
+-- q8 What is the total items and amount spent for each member before they became a member?
+
+select s.customer_id, count(s.product_id), sum(m.price) from sales s
+Join Menu M
+ON m.product_id = s.product_id
+JOIN Members Mem
+ON Mem.Customer_id = S.customer_id
+Where S.order_date < Mem.join_date 
+group by 1
+
+-- 9.  If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
+
+select s.customer_id, sum(case When m.product_id = 1 THEN m.price*20 Else m.price*10 End) as points from sales s 
+Join Menu m
+ON m.product_id = s.product_id
+GROUP BY 1
+
