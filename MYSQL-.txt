@@ -1,0 +1,121 @@
+MYSQL-
+
+Variable - single value
+Array - multiple values of same type
+--- your values are lost when program stops
+
+File hnadling
+
+ Database - Tables (row column)
+
+DBMS-
+RDBMS - 
+
+----CONCEPTS-
+
+Database :collection of logical tables
+Tables : rows and columns
+rows(tuple/record) : info about person, place/thing
+columns(field/attribute): 
+
+Type of commands:
+
+DDL(Data Definition language): its related to structure of table : create, alter, drop, truncate
+DML(Data manipulation Language) : Insert, update, delete
+DCL( Data Control language) : grant, revoke
+TCL : commit and rollback
+DQL (Data Query Language) : select
+
+Constraints-
+
+primary key - uniquely + not null
+foregin key - refers primary key for another table. it can hold duplicates but only exists in PK
+unique key - unique + one null 
+composite key- any key madeup of more than one column
+check- If you want values from given list. e.g gender: M/F
+not null - it is mandatory column.
+
+
+-----
+alternate key - All candidate key except PK
+candiadate key - any column can be a PK
+primary key - a column that is choosed as PK
+
+-----
+
+Relationships-
+Types
+1. 1-1 : one student belongs to one department
+2. one to many : one customer can order many times: PK, FK
+3. many to one : 
+4. many to many : Many students are taught by many teacher
+
+Normalization- divide big tables into smaller tables to remove duplicate data/reduce redundancy data to increase the consistency.
+Cons:
+* you need joins to retrieve data
+* performance hit (wilh small data this performance is managable)
+
+Denormalization: intentionally repeating the data, going against normalization rule to gain performance.
+In time and space complexity, we can take a hit of space complexity.
+
+In big data, we normally have denormalized data.
+
+JOINS- Types
+1. inner join(intersect) - common records
+2. outer join/ full outer join - all records fro both tables 
+3. left outer join - all records from left table and matching records from right table
+4. right outer join- all records from right table and matching records from left table
+5. self join - join with itself or self table , eg. parent-child hirercahy relation with the table
+6. cross join - cartesian product, each row of table1 gets matched with every row of table 2
+7. equi join - 
+8. non equi join
+9. anti joins
+
+#Subqueries-
+its query inside query
+
+first inner query will execute once and pass the output to outer query and then outer query can execute
+then outer query can execute
+inner query should return one value if outer query is using relational operator
+
+inner query can return multiple values provided outer query use in operator
+select * from emp where eid = (select eid from address where city='mumbai')
+
+correlated subquery- inner query will execute for each row return by outer query. outer table is referred 
+select * from table1 t where col >(select col from tbale1 where cid=t.cid)
+
+-outer query(child) is dependent on inner query(father) whereas your inner query(father) is also dependent on outer query(child).
+
+#window functions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
