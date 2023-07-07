@@ -1,0 +1,369 @@
+
+SQL 
+⦁	Types of commands and their examples.
+SQL commands can be categorized into different types based on their purpose in interacting with a relational database. Here are the main types of SQL commands with examples:
+
+Data Definition Language (DDL):
+The CREATE command is used to create new database objects such as tables, indexes, or views.
+Example: Creating a table - CREATE TABLE employees (id INT, name VARCHAR(50));
+The ALTER command is used to modify the structure of existing database objects.
+Example: Adding a column to a table - ALTER TABLE employees ADD COLUMN age INT;
+The DROP command is used to delete database objects.
+Example: Dropping a table - DROP TABLE employees;
+
+Data Manipulation Language (DML):
+The SELECT command is used to retrieve data from one or more database tables.
+Example: Retrieving all records from a table - SELECT * FROM employees;
+The INSERT command is used to insert new records into a table.
+Example: Inserting a new record - INSERT INTO employees (id, name) VALUES (1, 'John');
+The UPDATE command is used to update existing records in a table.
+Example: Updating a record - UPDATE employees SET name = 'Jane' WHERE id = 1;
+The DELETE command is used to delete records from a table.
+Example: Deleting records - DELETE FROM employees WHERE id = 1;
+
+Data Control Language (DCL):
+The GRANT command is used to grant privileges or permissions to database users.
+Example: Granting SELECT and INSERT privileges - GRANT SELECT, INSERT ON employees TO user1;
+The REVOKE command is used to revoke previously granted privileges or permissions.
+Example: Revoking INSERT privilege - REVOKE INSERT ON employees FROM user1;
+
+Transaction Control Language (TCL):
+The COMMIT command is used to save the changes made in a transaction.
+Example: Committing a transaction - COMMIT;
+The ROLLBACK command is used to undo the changes made in a transaction.
+Example: Rolling back a transaction - ROLLBACK;
+The SAVEPOINT command is used to create a savepoint within a transaction.
+Example: Creating a savepoint - SAVEPOINT savepoint1;
+The RELEASE command is used to remove a savepoint within a transaction.
+Example: Releasing a savepoint - RELEASE savepoint1;
+
+⦁	What is Normalization and denormalization?  
+Normalization is the process of organizing data in a database to eliminate redundancy and dependency issues. It involves breaking down a database into multiple tables to minimize data duplication and maintain data consistency. Normalization follows a set of rules called Normal Forms (NF) to achieve optimal data organization, eliminate anomalies, and improve data integrity. 
+
+Denormalization, on the other hand, is the intentional introduction of redundancy in a database design for performance optimization. It involves combining tables or duplicating data to improve query performance by reducing joins or data retrieval operations. Denormalization enhances query performance, simplifies data access, and supports specific reporting or analytical requirements.
+
+In summary, normalization aims to eliminate redundancy and ensure data consistency, while denormalization sacrifices some normalization to improve query performance. Both techniques have their use cases based on specific requirements and trade-offs in a database system.
+
+⦁	Explain 1NF, 2NF, 3NF.
+1NF – each row must be unique
+          Each cell must contain only a single item
+2NF—separate tbales for sets of values that apply to multiple records
+3NF- must ne 1NF & 2NF but doesnot depend on key
+BCNF- It's the higher version 3NF and was developed by Raymond F. Boyce and Edgar F. Codd to address certain types of anomalies which were not dealt with 3NF.
+Before proceeding to BCNF the table has to satisfy 3rd Normal Form.
+In BCNF if every functional dependency A → B, then A has to be the Super Key of that particular table.
+
+⦁	Share use case where you had to do denormalization in database.
+Denormalization is a technique used to improve query performance in database systems. In the context of generating sales reports for an e-commerce company's different regions, denormalization proves useful. By creating a dedicated table for sales reports and pre-aggregating data, such as total sales by region, month, or product category, complex joins and calculations can be avoided. This denormalized table allows for faster and more efficient querying, enabling timely generation of sales reports. While denormalization introduces redundancy and requires careful management to maintain data consistency, the benefits of improved performance outweigh the associated challenges. Overall, denormalization in this use case optimizes data retrieval and enhances the efficiency of generating sales reports for informed decision-making.
+
+⦁	What is primary key and foreign key?
+
+A primary key is a unique identifier for a record in a database table. It ensures that each row in a table is uniquely identifiable and enforces data integrity by preventing duplicates or null values. It can be a single column or a combination of columns. 
+⦁	unique + not null
+
+A foreign key, on the other hand, establishes a relationship between two tables by linking the primary key of one table to a column in another table. It ensures referential integrity by enforcing that the values in the referencing table exist in the referenced table's primary key column(s). Foreign keys allow for the creation of relationships and maintain consistency in the database. 
+refers primary key from another table. It can hold duplicates
+
+In short, a primary key uniquely identifies records within a table, while a foreign key establishes relationships between tables based on the primary key of another table. Both keys play vital roles in maintaining data integrity and enforcing relationships in a database.
+
+⦁	what is alternate and candidate key?
+Alternate Key:
+An alternate key is a column or set of columns in a database table that can uniquely identify a record, just like a primary key. However, unlike a primary key, there can be multiple alternate keys in a table. Alternate keys provide additional ways to uniquely identify records and can be used as an alternative to the primary key. They are unique within the table and have similar characteristics to primary keys, such as being non-null and immutable.
+
+Candidate Key:
+A candidate key is a set of one or more columns that can uniquely identify a record in a database table. It is a broader concept than the primary key or alternate keys. A candidate key is a potential choice for a primary key and satisfies the criteria for uniqueness and non-nullability. In a table, there can be multiple candidate keys, and the primary key is selected from these candidate keys.
+
+Key differences between alternate keys and candidate keys:
+
+Alternate keys are specific instances of candidate keys that are not chosen as the primary key.
+Alternate keys are unique within the table, just like candidate keys.
+Candidate keys encompass all potential keys that can uniquely identify records, including both primary keys and alternate keys.
+A table can have multiple alternate keys, but only one primary key.
+
+Alternate key : all the candidates key except PK 
+Candidate key : Any column can be a PK
+Primary key: a column that is choosed as PK
+candidate 	eid	emailid 	mob 
+pk 	eid 		
+alternate 	email 	mob 	
+
+
+
+⦁	What are window functions?
+ 
+
+A window function is a powerful feature in SQL that allows you to perform calculations across a set of rows in a database table. It operates on a "window" or subset of rows defined by a specific criteria, such as a range of rows, a partition of data, or an ordered sequence of rows.
+
+Window functions provide a way to aggregate data and compute results based on the values within the defined window, without altering the overall result set. They can be used to perform various calculations, such as calculating running totals, ranking data, finding moving averages, and determining cumulative sums.
+
+Some commonly used window functions include:
+
+ROW_NUMBER: Assigns a unique sequential number to each row within the window.
+RANK: Calculates the rank of each row within the window based on specified criteria.
+SUM, AVG, MIN, MAX: Perform aggregate calculations on the values within the window.
+LAG, LEAD: Access the values of previous or subsequent rows within the window.
+FIRST_VALUE, LAST_VALUE: Retrieve the first or last value in the window.
+Window functions are typically used in conjunction with the OVER clause, which specifies the window criteria. The OVER clause defines the partitioning, ordering, and framing for the window function.
+
+⦁	Explain Ranking Functions?
+
+Ranking functions are a type of window function in SQL that assign a rank or position to each row within a specified window based on a specified criteria. These functions are useful for ordering and ranking data, allowing you to determine the relative position of each row in a result set.
+
+There are several ranking functions available in SQL, including:
+
+ROW_NUMBER(): Assigns a unique sequential number to each row in the result set, starting from 1.
+RANK(): Calculates the rank of each row within the window. Rows with the same values are assigned the same rank, and the next rank is skipped.
+DENSE_RANK(): Similar to the RANK() function, but it does not skip ranks when there are ties. Rows with the same values are assigned the same rank, and the next rank is not skipped.
+NTILE(): Divides the rows within the window into specified groups or buckets and assigns each row a bucket number.
+These ranking functions can be combined with the ORDER BY clause to define the criteria for ranking. You can specify one or more columns to order the data, and the ranking function will assign ranks based on the order.
+
+For example, consider a table of sales data with columns for the salesperson's name and the corresponding sales amount. By using the RANK() function and ordering the data by sales amount, you can determine the rank of each salesperson based on their sales performance. The salesperson with the highest sales amount will be assigned a rank of 1, followed by the second highest with a rank of 2, and so on.
+
+MEMORY
+Ranking function
+Row_number : givens unique ranks
+Rank : gives duplicate rank and skips next rank
+Dense_rank : gives duplicate rank and does not skips next rank
+
+ 
+
+
+
+
+
+⦁	Types of Joins?
+The common types of joins are as follows:
+
+⦁	Inner Join: Returns only the matching rows from both tables based on the specified condition. It includes only the rows where the join condition is satisfied in both the left and right tables.
+⦁	Left Join (or Left Outer Join): Returns all rows from the left (or first) table and the matching rows from the right (or second) table. If there is no match in the right table, NULL values are returned for the right table columns.
+⦁	Right Join (or Right Outer Join): Returns all rows from the right (or second) table and the matching rows from the left (or first) table. If there is no match in the left table, NULL values are returned for the left table columns.
+⦁	Full Join (or Full Outer Join): Returns all rows from both the left and right tables. It includes all rows from both tables and matches the rows based on the specified condition. If there is no match, NULL values are returned for the non-matching columns.
+⦁	Cross Join (or Cartesian Join): Returns the Cartesian product of rows from both tables. It combines each row from the left table with every row from the right table, resulting in a potentially large result set.
+⦁	Self Join: A self join is used when a table is joined with itself. It allows you to combine rows within the same table based on a specified condition. It is commonly used to compare or analyze hierarchical or recursive data.
+
+MEMORY-
+⦁	Inner join(intersect) : common records in both tables
+⦁	Outer join / Full outer join : all records from both tables
+⦁	Left outer join : all records from left table and matching records from right table
+⦁	Right outer join : all records from right table and matching records from left table
+⦁	Self join: join with itself or self table
+E.g :parent -child (hierarchy) relation with one table.
+Every employee has a manager and every manager is a employee
+⦁	 Cross join : cartesian product :each row of table 1 gets matched with every row of table2
+⦁	Anti left joins : non matching records from left table
+⦁	Anti right joins : non matching records from right table
+ 
+
+⦁	Use case when self join is required.
+consider an organization's employee table that contains information about employees and their managers. The table may have columns like employee_id, employee_name, and manager_id, where the manager_id refers to the employee_id of the corresponding manager.
+
+In this scenario, a self join can be used to retrieve information about an employee and their manager. By joining the employee table with itself on the manager_id column, you can connect an employee with their respective manager and retrieve details from both rows.
+
+⦁	What is subquery?
+A subquery, also known as a nested query or inner query, is a query statement that is embedded within another query. It allows you to use the result of one query (the subquery) as a part of another query (the outer query). Subqueries are enclosed within parentheses and can appear in various parts of a SQL statement, such as the SELECT, FROM, WHERE, or HAVING clauses.
+
+MEMORY-
+Its query inside query
+First your inner query will execute once and pass the output to outer query and then outer query can execute.
+Inner query should return one value if your outer query is using relational operator
+Inner query can return multiple values provided outer query use in operator
+Outer query is dependent on inner query whereas your inner query is independent
+
+Select * from emp where eid =(select eid  from address where city = ‘mumbai’)
+
+Select * from emp where eid =(select eid  from address where city = (query3))
+⦁	What is corelated subquery?
+correlated subquery is a type of subquery that references a column from the outer query within its own query body. It allows the subquery to be executed repeatedly for each row processed by the outer query. The correlation between the subquery and the outer query is established by using a column from the outer query in the subquery's WHERE or HAVING clause.
+Here's an example to illustrate a correlated subquery:
+Suppose you have two tables: Customers and Orders. The Customers table contains customer information, including a unique customer ID, and the Orders table contains order information, including the customer ID associated with each order.
+To find all customers who have placed orders, you can use a correlated subquery as follows:
+SELECT c.customer_name
+FROM Customers c
+WHERE EXISTS (
+    SELECT 1
+    FROM Orders o
+    WHERE o.customer_id = c.customer_id
+)
+In this example, the subquery is the inner query within the EXISTS clause. It checks for the existence of any rows in the Orders table where the customer ID matches the customer ID from the outer query (Customers table). The subquery is correlated to the outer query because it references the customer_id column from the outer query within its WHERE clause.
+
+The correlated subquery is evaluated for each row of the Customers table. For each customer, it checks if there exists at least one matching row in the Orders table. If a match is found, the customer's name is included in the result set.
+
+Correlated subqueries can be used in various scenarios where you need to evaluate conditions based on data from both the outer and inner queries. They are particularly useful when you need to perform row-level comparisons or filtering based on related data across multiple tables.
+
+MEMORY-
+⦁	Inner query will execute once for each row return by outer query.
+⦁	Outer table is referred in inner query
+⦁	Outer query (child) is dependent on inner query(father)  whereas your inner query(father) is also dependent on outer query(child)
+⦁	Select * from table1  t where col > ( select col from table1 where cid=t.cid)
+
+
+
+
+⦁	What is CTE? 
+CTE stands for Common Table Expression. It is a temporary named result set that can be referenced within a SQL statement. CTEs provide a way to define a query block that can be reused multiple times or referenced within another query, making complex queries more readable and maintainable.
+
+WITH cte_name (column1, column2, ...)
+AS (
+    -- CTE query definition goes here
+    SELECT column1, column2, ...
+    FROM table_name
+    WHERE condition
+)
+-- Main query using the CTE
+SELECT *
+FROM cte_name
+WHERE additional_condition;
+
+⦁	Find third highest employee based on salary?
+
+SELECT employee_id, employee_name, salary
+FROM employees
+ORDER BY salary DESC
+LIMIT 1 OFFSET 2;
+
+⦁	Find third highest employee based on salary  per department?
+
+SELECT department_id, employee_id, employee_name, salary
+FROM (
+  SELECT department_id, employee_id, employee_name, salary, 
+         DENSE_RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) AS rank
+  FROM employees
+) AS ranked_employees
+WHERE rank = 3;
+
+
+⦁	How to find duplicate values in a single column?
+
+SELECT column_name, COUNT(*) as count
+FROM table_name
+GROUP BY column_name
+HAVING COUNT(*) > 1;
+
+⦁	How to find duplicate values in a multiple column?
+
+SELECT column1, column2, ..., COUNT(*) as count
+FROM table_name
+GROUP BY column1, column2, ...
+HAVING COUNT(*) > 1;
+
+⦁	What are ACID properties?
+
+
+ACID properties are a set of desirable characteristics that ensure the reliability and integrity of transactions in a database system. The term "ACID" stands for Atomicity, Consistency, Isolation, and Durability. These properties guarantee that database transactions are processed reliably, accurately, and consistently, even in the presence of failures.
+
+Let's explore each ACID property in more detail:
+
+Atomicity: Atomicity ensures that a transaction is treated as a single, indivisible unit of work. Either all the operations within a transaction are executed successfully, or none of them are. If any part of a transaction fails, all the changes made by the transaction are rolled back, and the database returns to its original state. This property ensures that the database remains consistent even in the event of failures or interruptions.
+
+Consistency: Consistency ensures that a transaction brings the database from one valid state to another. It ensures that all data modifications follow defined rules and constraints, maintaining the integrity and validity of the database. If a transaction violates any constraints or integrity rules, the changes are rolled back, and the database remains unchanged.
+
+Isolation: Isolation ensures that concurrent transactions do not interfere with each other. Each transaction is executed in isolation, as if it were the only transaction running on the database. This property prevents interference between concurrent transactions, preserving data integrity and preventing data inconsistencies that could arise from simultaneous access or modification of the same data.
+
+Durability: Durability guarantees that once a transaction is committed, its changes are permanent and will survive any subsequent failures, such as power outages or system crashes. Committed data is stored in non-volatile memory or persistent storage, ensuring that it can be recovered even after a system failure. This property ensures that the database can be relied upon to retain the changes made by successfully completed transactions.
+ 
+By adhering to the ACID properties, database systems provide a strong foundation for transactional integrity, reliability, and data consistency. These properties are crucial for applications that require precise and reliable data processing, such as financial systems, e-commerce platforms, and other mission-critical applications.
+
+
+⦁	Diff between union and union all
+
+The main difference between UNION and UNION ALL in SQL is how they handle duplicate rows when combining the result sets of multiple SELECT statements.
+
+UNION:
+The UNION operator combines the result sets of two or more SELECT statements into a single result set.
+It removes duplicate rows from the final result set.
+Each SELECT statement must have the same number of columns, and the corresponding columns must have compatible data types.
+The order of the columns in the SELECT statements must match.
+The UNION operator implicitly performs a DISTINCT operation to eliminate duplicates.
+Example:
+SELECT column1, column2 FROM table1
+UNION
+SELECT column1, column2 FROM table2;
+
+UNION ALL:
+The UNION ALL operator also combines the result sets of two or more SELECT statements into a single result set.
+It preserves all rows, including duplicate rows, from the SELECT statements.
+Each SELECT statement must have the same number of columns, and the corresponding columns must have compatible data types.
+The order of the columns in the SELECT statements must match.
+The UNION ALL operator does not remove duplicate rows.
+
+Example:
+SELECT column1, column2 FROM table1
+UNION ALL
+SELECT column1, column2 FROM table2;
+
+In summary, UNION removes duplicate rows from the result set, while UNION ALL retains all rows, including duplicates. If you need to eliminate duplicates, use UNION. If duplicates are not a concern or you want to include them in the result set, use UNION ALL for better performance, as it avoids the additional processing required to identify and remove duplicates.
+
+
+⦁	Diff between primary key and unique key
+
+Primary Key and Unique Key are both used to enforce uniqueness and integrity in a database table, but there are some differences between them:
+
+Primary Key:
+
+A Primary Key is a column or a combination of columns that uniquely identifies each row in a table.
+It enforces entity integrity, meaning it ensures that each row in the table is uniquely identifiable.
+By default, a Primary Key constraint also implies a NOT NULL constraint, meaning the column(s) cannot have NULL values.
+Each table can have only one Primary Key.
+Primary Key values must be unique and not duplicated within the table.
+Primary Key columns are typically used as the basis for creating foreign key relationships with other tables.
+
+Unique Key:
+
+A Unique Key constraint enforces the uniqueness of values in one or more columns, similar to a Primary Key.
+It allows for a maximum of one NULL value per column if the constraint is not explicitly defined as NOT NULL.
+A table can have multiple Unique Key constraints.
+Unique Key values must be unique and not duplicated within the table.
+Unique Key constraints are not automatically used as the basis for foreign key relationships.
+Unlike the Primary Key, a Unique Key can be referenced by a foreign key in another table.
+
+
+Primary key : unique + not null
+Unique key : unique + one null
+
+⦁	Diff between truncate and delete
+
+TRUNCATE is a fast, non-logged operation that removes all rows from a table. It does not generate individual log entries for each deleted row and cannot be rolled back. Triggers associated with the table are not fired, and the table structure remains intact. TRUNCATE resets identity columns and releases the allocated space back to the database.
+
+DELETE, on the other hand, selectively removes specific rows from a table based on specified criteria. It is a logged operation, generating log entries for each deleted row, and can be rolled back within a transaction. Triggers associated with the table are fired, and the table structure remains unchanged. DELETE does not reset identity columns or release space unless explicitly performed.
+
+⦁	SQL query execution order.
+The execution order of an SQL query generally follows these steps:
+
+FROM clause: Specifies the table(s) or view(s) from which the data will be retrieved.
+WHERE clause: Filters the rows based on specified conditions.
+GROUP BY clause: Groups the rows into sets based on specified columns.
+HAVING clause: Filters the grouped rows based on specified conditions.
+SELECT clause: Specifies the columns to be retrieved from the table(s).
+ORDER BY clause: Sorts the result set based on specified columns.
+LIMIT/OFFSET clause: Limits the number of rows returned or skips a specified number of rows.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
