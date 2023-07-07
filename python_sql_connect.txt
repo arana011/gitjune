@@ -1,0 +1,31 @@
+import mysql.connector
+
+mydb= mysql.connector.connect(
+    host='localhost',
+    user='root',
+    password='1234@Rana',
+    port=3306,
+    database='python_video'
+)
+
+mycursor = mydb.cursor()
+mycursor.execute('SELECT * FROM uses')
+users= mycursor.fetchall()
+for i in users:
+    print(i)
+    print('username '+ i[1])
+    print('password '+ i[2])
+
+
+output-
+
+C:\Users\Consultant\PycharmProjects\connect-mysql-python\Scripts\python.exe C:\Users\Consultant\PycharmProjects\pythonProject3\my-connector.py 
+('0', 'abhi', 'pass')
+username abhi
+password pass
+('1', 'witt', 'passy')
+username witt
+password passy
+('2', 'ragh', 'pswd')
+username ragh
+password pswd
