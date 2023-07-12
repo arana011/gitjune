@@ -1,0 +1,1316 @@
+import Main.sum
+
+var rate : Int=100;
+def usdtoinr(num1: Int, rate: Any): Int ={
+return num1* rate;
+println(sum(num1=10))
+}
+
+object Main {
+  def sum(num1:Int , num2:Int): Int ={return num1+num2;}
+  def main(args: Array[String]): Unit = {
+    println("Hello world!")
+    println(sum(num1=10, num2=12))
+
+    var age:Int =20;
+      if (age >60){print("senior citizen")}
+      else if (age>18){println("major")}
+      else
+        {println("minor")}
+        println("=============== loop")
+
+       for (i <-0  to  10)
+         println(i)
+
+       for (i <-0   until 10)
+         println(i)
+  }
+}
+
+---
+var fun1 = (num1: Int, num2: Int) => num1 + num2
+println(fun1(10, 20))
+
+----
+object Main1 extends App{
+  println("hello from APP Main")
+
+  var fun1 = (num1 : Int , num2 : Int) => num1+num2
+  println(fun1(10,20))
+  val lst = List(10,20,30)
+  var lstoutput= lst.map(i => i*i)
+  println(lstoutput)
+
+  def sq(n:Int): Int={n*n}
+  lstoutput= lst.map(sq)
+  println(lstoutput)
+
+  val sum=lst.reduce((i,j) => i+j)
+  println(sum)
+}
+
+---
+trait A {
+  def greet (): Unit= println("hello from A")
+
+}
+trait B extends A{
+  override def greet(): Unit = println("hello from B")
+  super.greet()
+}
+
+trait C extends A{
+  override def greet (): Unit= println("hello from C")
+  super.greet()
+
+}
+class D extends B with C{
+
+  def hello(): Unit = greet()
+
+}
+
+object traitsdemo extends App{
+  val d=new D()
+  d.hello()
+}
+----string
+
+object hello {
+  def main(args: Array[String]): Unit = {
+    val name= "abhi"
+    val age= 25.8
+    println(name +" is "+ age+" years old")
+    println(s"$name is $age years old")
+    println(f"$name%s is $age%f years old")
+    println(s"hello \n world")
+    println(raw"hello \n world")
+  }
+
+}
+
+solution-
+abhi is 25.8 years old
+abhi is 25.8 years old
+abhi is 25.800000 years old
+hello 
+ world
+hello \n world
+
+----if else loop
+object loop {
+  def main(args: Array[String]): Unit = {
+    val x = 20;
+    if (x == 20) {
+      println("x ==20");
+    } else {
+      println("x !=20")
+    }
+  }
+
+}
+
+solution-
+x==20
+
+----
+object loop {
+  def main(args: Array[String]): Unit = {
+    val x = 40;
+    var res="";
+    if (x == 20) {
+
+      res ="x==20"
+    } else {
+
+      res="x!=20"
+    }
+      println(res);
+  }
+
+---
+  def main(args: Array[String]): Unit = {
+    val x = 20;
+    var res="";
+    if (x == 20) {
+
+      res ="x==20"
+    } else {
+
+      res="x!=20"
+    }
+      println(res);
+    val res2= if (x!=20) "x==20" else "x!=20"
+    println(res2)
+  }
+
+}
+
+----
+object loop {
+  def main(args: Array[String]): Unit = {
+    val x = 20;
+    val y =30;
+    var res="";
+    if (x == 20 && y==30) {
+
+      res ="x==20 && y==30"
+    } else {
+
+      res="x!=20"
+    }
+      println(res);
+    val res2= if (x!=20) "x==20" else "x!=20"
+    println(res2)
+  }
+
+}
+---
+object loop {
+  def main(args: Array[String]): Unit = {
+    val x = 20;
+    val y =30;
+    var res="";
+    if (x < 20 || y>30) {
+
+      res ="x==20 && y==30"
+    } else {
+
+      res="x!=20"
+    }
+      println(res);
+    val res2= if (x!=20) "x==20" else "x!=20"
+    println(res2)
+  }
+
+}
+---
+
+object while_loop {
+  def main(args: Array[String]): Unit = {
+    var x=0
+    while (x<10){
+      println("x="+x)
+      x+=1
+    }
+  }
+
+}
+
+solution
+x=0
+x=1
+x=2
+x=3
+x=4
+x=5
+x=6
+x=7
+x=8
+x=9
+
+---
+object while_loop {
+  def main(args: Array[String]): Unit = {
+    var x=0
+    while (x<10){
+      println("x="+x)
+      x+=1
+    }
+    var y=0
+    do {
+      print("y= "+y)
+      y+=1
+
+    }while(y<10)
+  }
+
+}
+
+solution
+
+x=0
+x=1
+x=2
+x=3
+x=4
+x=5
+x=6
+x=7
+x=8
+x=9
+y= 0y= 1y= 2y= 3y= 4y= 5y= 6y= 7y= 8y= 9
+Process finished with exit code 0
+
+---
+object while_loop {
+  def main(args: Array[String]): Unit = {
+    var x=0
+    while (x<10){
+      println("x="+x)
+      x+=1
+    }
+    var y=0
+    do {
+      print("y= "+y)
+      y+=1
+
+    }while(y<0)
+  }
+
+}
+
+solution-
+x=0
+x=1
+x=2
+x=3
+x=4
+x=5
+x=6
+x=7
+x=8
+x=9
+y= 0
+
+----for loop
+object for_loop {
+  def main(args: Array[String]): Unit = {
+    for (i <- 1 to 5){
+      println("i using to "+i)
+    }
+    for (i <- 1 until 6) {
+      println("i using until " + i)
+    }
+    for (i <- 1 to 9; j <- 1 to 3) {
+      println("i using multiple ranges " + i + " "+j)
+    }
+    val lst= List(1,2,3,4,6,78,9,6,5)
+    for (i<-lst) {
+      println("i using lst " + i)
+    }
+    for (i <- lst; if i <6) {
+      println("i using filters " + i)
+    }
+    val result= for {i <- lst; if i <6} yield {
+      i*i
+    }
+    println("result = "+ result)
+  }
+
+}
+solution
+
+i using to 1
+i using to 2
+i using to 3
+i using to 4
+i using to 5
+i using until 1
+i using until 2
+i using until 3
+i using until 4
+i using until 5
+i using multiple ranges 1 1
+i using multiple ranges 1 2
+i using multiple ranges 1 3
+i using multiple ranges 2 1
+i using multiple ranges 2 2
+i using multiple ranges 2 3
+i using multiple ranges 3 1
+i using multiple ranges 3 2
+i using multiple ranges 3 3
+i using multiple ranges 4 1
+i using multiple ranges 4 2
+i using multiple ranges 4 3
+i using multiple ranges 5 1
+i using multiple ranges 5 2
+i using multiple ranges 5 3
+i using multiple ranges 6 1
+i using multiple ranges 6 2
+i using multiple ranges 6 3
+i using multiple ranges 7 1
+i using multiple ranges 7 2
+i using multiple ranges 7 3
+i using multiple ranges 8 1
+i using multiple ranges 8 2
+i using multiple ranges 8 3
+i using multiple ranges 9 1
+i using multiple ranges 9 2
+i using multiple ranges 9 3
+i using lst 1
+i using lst 2
+i using lst 3
+i using lst 4
+i using lst 6
+i using lst 78
+i using lst 9
+i using lst 6
+i using lst 5
+i using filters 1
+i using filters 2
+i using filters 3
+i using filters 4
+i using filters 5
+result = List(1, 4, 9, 16, 25)
+
+----
+object match_exp {
+  def main(args: Array[String]): Unit = {
+    val age = 20
+    age match {
+      case 20 => println(age)
+      case 25 => println(age)
+      case 18 => println(age)
+      case 30 => println(age)
+      case 40 => println(age)
+      case 50 => println(age)
+
+      case _ => println("default")
+    }
+    val result = age match {
+      case 20 => age
+      case 25 => age
+      case 18 => age
+      case 30 => age
+      case 40 => age
+      case 50 => age
+
+      case _ => "default"
+    }
+    println("result= " + result)
+    val i = 7
+    i match {
+      case 1 | 3 | 5 | 7 | 9 => println("odd")
+      case 2 | 4 | 6 | 8 | 10 => println("even")
+    }
+  }
+
+solution
+20
+result= 20
+odd
+
+----
+
+object functions {
+  def add(x: Int , y: Int) : Int ={
+    return x + y
+  }
+
+  def subtract(x: Int, y: Int): Int = {
+    x - y
+  }
+
+  def multiply(x: Int, y: Int): Int = x * y
+
+  def divide(x: Int, y: Int) = x / y
+
+  def main(args: Array[String]): Unit = {
+    println(add(45, 15))
+    println(subtract(45, 15))
+    println(multiply(45, 15))
+    println(divide(45, 15))
+  }
+
+}
+
+solution
+60
+30
+675
+3
+
+---
+object functions {
+  object math {
+    def add(x: Int, y: Int): Int = {
+      return x + y
+    }
+    def square(x: Int) = x * x
+
+  }
+
+  def subtract(x: Int, y: Int): Int = {
+    x - y
+  }
+  def multiply(x: Int, y: Int): Int = x * y
+
+  def divide(x: Int, y: Int) = x / y
+
+  def main(args: Array[String]): Unit = {
+    println(math.add(45, 15))
+    println(math square 3)
+    println(subtract(45, 15))
+    println(multiply(45, 15))
+    println(divide(45, 15))
+  }
+
+}
+
+solution
+60
+9
+30
+675
+3
+
+----
+object functions {
+  object math {
+    def +(x: Int , y: Int): Int = {
+      return x + y
+    }
+    def **(x: Int) = x * x
+  }
+  def print(x: Int , y : Int): Unit ={
+    println(x+y)
+  }
+
+  def main(args: Array[String]): Unit = {
+    var add = (x : Int , y: Int) => x+y // anonymous fn
+    println(add(300,500))
+    val sum =10*20
+    print(100,200)
+    println(math.+(60))
+    println(math ** 3)
+
+  }
+
+}
+
+solution
+
+800
+300
+75
+9
+
+----two args
+
+object high_order_fun {
+  def math(x: Double , y: Double ,f:(Double, Double)=> Double) : Double = f(x,y);
+  def main(args: Array[String]): Unit = {
+    val  result = math(50,20,(x,y)=> x min y)
+    println(result)
+  }
+
+}
+solution
+20.0
+
+----3 args
+object high_order_fun {
+  def math(x: Double , y: Double , z: Double, f:(Double, Double)=> Double) : Double = f(f(x,y),z);
+  def main(args: Array[String]): Unit = {
+    val  result = math(50,20,10, (x,y)=> x max y)
+    println(result)
+  }
+
+}
+solution
+50
+
+----
+object high_order_fun {
+  def math(x: Double , y: Double , z: Double, f:(Double, Double)=> Double) : Double = f(f(x,y),z);
+  def main(args: Array[String]): Unit = {
+    val  result = math(50,20,10, _ max _ ) //wildcard
+    println(result)
+  }
+
+---partially applied fn
+
+
+import java.util.Date
+
+object applied_fun {
+  def log(date: Date,message: String)={
+    println(date + " "+ message)
+  }
+  def main(args: Array[String]): Unit = {
+    val sum= (a:Int, b: Int, c: Int) => a+b+c
+    val f=sum(10,20,_ : Int)
+    println(f(30))
+
+    val date = new Date
+    val newlog = log(date, _ :String)
+    newlog("The message 1")
+    newlog("The message 2")
+    newlog("The message 3")
+    newlog("The message 4")
+  }
+
+}
+
+solution-
+
+60
+Mon Jul 10 21:40:31 EDT 2023 The message 1
+Mon Jul 10 21:40:31 EDT 2023 The message 2
+Mon Jul 10 21:40:31 EDT 2023 The message 3
+Mon Jul 10 21:40:31 EDT 2023 The message 4
+
+------closures are functions which uses one or more variables declared outside this function
+object closuress {
+  var num=10
+  val add= (x:Int) => x+num
+  def main(args: Array[String]): Unit = {
+    num=100
+    println(add(20))
+
+  }
+
+}
+
+solution 
+120
+
+---
+object closuress {
+  var num=10
+  val add= (x:Int) =>{
+    num= x+num
+    num
+  }
+  def main(args: Array[String]): Unit = {
+    num=100
+    println(add(20))
+    println(num)
+  }
+
+}
+
+solution
+120
+120
+
+---currying is technique of transforming a function that takes multiple arguments into a function, takes a single argument 
+object curryingg {
+  def add = (x : Int , y: Int) => x+y
+  def add2 (x: Int)= (y: Int)=> x+y
+
+  def add3(x:Int)(y:Int)= x+y  //simple signature
+  def main(args: Array[String]): Unit = {
+    println(add(20,10))
+    println(add2(20)(10))
+    val sum40= add2(40)
+    println(sum40(100))
+    println(add3(100)(200))
+    val sum50=  add3(50)_  //partial fun
+    println(sum50(400))
+  }
+
+solution-
+30
+30
+140
+300
+450
+
+---
+
+object strings {
+  val num1=75
+  val num2=100.25
+  val str1 : String ="Hello World"
+  val str2 : String = " Max"
+  def main(args: Array[String]): Unit = {
+    println(str1.length())
+    println(str1.concat(str2))
+    val result= printf("(%d -- %f -- %s)", num1,num2,str1)
+    println(result)
+    println("(%d -- %f -- %s)".format(num1,num2,str1))
+    printf("(%d -- %f -- %s)", num1,num2,str1)
+    
+
+
+  }
+
+}
+
+solution
+11
+Hello World Max
+(75 -- 100.250000 -- Hello World)()
+(75 -- 100.250000 -- Hello World)
+(75 -- 100.250000 -- Hello World)
+
+
+
+---array
+
+object arrayss {
+  val myarray: Array[Int]= new Array[Int](4)
+  val myarray2 = new Array[Int](5)
+  val myarray3 = Array(1,2,3,4,5,6,8)
+  def main(args : Array[String]): Unit = {
+    myarray(0) =20
+    myarray(1) =30
+    myarray(2) =40
+    myarray(3) =50
+    // myarray(4) =60
+    println(myarray)
+    for (x<- myarray){
+      println(x)
+    }
+    for (i<-0 to (myarray.length -1)){
+      println(myarray(i))
+    }
+
+  }
+
+
+}
+
+solution
+[I@763d9750
+20
+30
+40
+50
+20
+30
+40
+50
+
+----
+import Array._
+
+object arrayss {
+  val myarray: Array[Int]= new Array[Int](4)
+  val myarray2 = new Array[Boolean](5)
+  val myarray3 = Array(1,2,3,4,5,6,8)
+  def main(args : Array[String]): Unit = {
+    myarray(0) =20
+    myarray(1) =30
+    myarray(2) =40
+    myarray(3) =50
+    // myarray(4) =60
+    println(myarray3.length)
+    val result= concat(myarray, myarray3)
+    println(myarray)
+    for (x<- result){
+      println(x)
+    }
+    for (i<-0 to (myarray.length -1)){
+      println(myarray(i))
+    }
+
+  }
+
+
+}
+solution-
+7
+[I@19bb089b
+20
+30
+40
+50
+1
+2
+3
+4
+5
+6
+8
+20
+30
+40
+50
+
+---lists- are immutable ,linked list , arrays flat
+object lists {
+  val mylist: List[Int]= List(1,2,5,8,9,6,4)
+  val names: List[String]= List("max","tom","john")
+  def main(args: Array[String]): Unit = {
+    println(mylist)
+    println(names)
+  }
+
+}
+sol-
+List(1, 2, 5, 8, 9, 6, 4)
+List(max, tom, john)
+
+---
+object lists {
+  val mylist: List[Int]= List(1,2,5,8,9,6,4)
+  val names: List[String]= List("max","tom","john")
+  def main(args: Array[String]): Unit = {
+    println(mylist)
+    println(0:: mylist)
+    println(names)
+    println(1 :: 5:: 9 :: Nil)
+    println(mylist.head)
+    println(names.tail) //all values except first one
+    println(names.isEmpty)
+    println(mylist.tail)
+    println(mylist.reverse)
+    println(List.fill(5)(2))
+    println(mylist.max)
+
+    mylist.foreach(println)
+    var sum : Int=0
+    mylist.foreach(sum+=_)
+    println(sum)
+
+    for (name <- names){
+      println(name)
+    }
+    println(names(0))
+  }
+
+}
+sol-
+
+List(1, 2, 5, 8, 9, 6, 4)
+List(0, 1, 2, 5, 8, 9, 6, 4)
+List(max, tom, john)
+List(1, 5, 9)
+1
+List(tom, john)
+false
+List(2, 5, 8, 9, 6, 4)
+List(4, 6, 9, 8, 5, 2, 1)
+List(2, 2, 2, 2, 2)
+9
+1
+2
+5
+8
+9
+6
+4
+35
+max
+tom
+john
+max
+
+----sets
+
+object sets {
+  val myset: Set[Int] = Set(1, 2, 5, 8, 9, 6, 4,4,5,8)
+  val myset2: Set[Int] = Set(4,2,9,18,19,16,14)
+ // var myset: scala.collection.mutable.Set(1, 2, 5, 8, 9, 6, 4,4,5,8)
+  val names: Set[String] = Set("max", "tom", "john")
+
+  def main(args: Array[String]): Unit = {
+    println(myset +10) //not ordered cannot index sets
+    println(names)
+    println(myset(8)) //present 8 or not
+    println(names("maxx"))
+    // println(0 :: myset)
+    println(myset.head)
+    println(myset.tail)
+    println(myset.isEmpty)
+
+    println(myset ++ myset2)
+    println(myset.++(myset2))
+
+    println(myset.&(myset2))
+    println(myset.intersect(myset2))
+    println(myset.max)
+    println(myset2.min)
+
+    myset.foreach(println)
+
+    for (name <- names){
+      println(name)
+    }
+  }
+}
+
+sol-
+HashSet(5, 10, 1, 6, 9, 2, 8, 4)
+Set(max, tom, john)
+true
+false
+5
+HashSet(1, 6, 9, 2, 8, 4)
+false
+HashSet(5, 14, 1, 6, 9, 2, 18, 16, 8, 19, 4)
+HashSet(5, 14, 1, 6, 9, 2, 18, 16, 8, 19, 4)
+HashSet(9, 2, 4)
+HashSet(9, 2, 4)
+9
+2
+5
+1
+6
+9
+2
+8
+4
+max
+tom
+john
+
+----maps
+object maps {
+  val mymap : Map[Int, String]= Map(801 -> "max",803 -> "tom", 804 ->"july")
+  val mymap2 : Map[Int, String]= Map( 805->"lua")
+  def main(args: Array[String]): Unit = {
+    println(mymap)
+    println(mymap(801))
+    // println(mymap(802))
+    println(mymap.values)
+    println(mymap.isEmpty)
+
+    mymap.keys.foreach{ key =>
+      println("key "+ key)
+      println("value "+ mymap(key))
+
+    }
+    println(mymap.contains(80100))
+    println(mymap ++ mymap2)
+    println(mymap.size)
+  }
+
+}
+
+sol-
+Map(801 -> max, 803 -> tom, 804 -> july)
+max
+Iterable(max, tom, july)
+false
+key 801
+value max
+key 803
+value tom
+key 804
+value july
+false
+Map(801 -> max, 803 -> tom, 804 -> july, 805 -> lua)
+3
+
+---tuples
+
+object tuple1{
+  val mytuple =(1,2,"hello",true)
+  val mytuple3 = new Tuple3(1,2,"hello") // Tuple3 , 3 values in tuple
+  val mytuple2 = new Tuple3(1,"hello", (2,3))
+  def main(args: Array[String]): Unit = {
+    println(mytuple._1)
+    println(mytuple._3)
+
+    mytuple.productIterator.foreach{
+      i => println(i)
+    }
+    println(1 -> "tom" -> true)
+    println(mytuple2._3._2)
+
+  }
+
+}
+
+sol-
+1
+hello
+1
+2
+hello
+true
+((1,tom),true)
+3
+
+---options(instance of some or none)
+object optionss {
+  val lst = List(1,2,3)
+  val map = Map(1 -> "tom", 2 -> "max", 3 -> "john")
+  val opt: Option[Int] = Some(55)
+  def main(args: Array[String]): Unit = {
+    println(lst.find(_>6))
+    println(lst.find(_>2).get)
+    println(map.get(2))
+    println(map.get(2).get)
+    println(map.get(5).getOrElse("no name found"))
+    println(lst.find(_>2).getOrElse(0))
+    println("-")
+    println(opt.isEmpty)
+    println(opt.get)
+
+  }
+
+sol-
+None
+3
+Some(max)
+max
+no name found
+3
+-
+false
+55
+
+---map and filter
+
+object map_and_filter {
+  val lst: List[Int]= List(1,2,5,8,9,6,4)
+  val mymap : Map[Int, String]= Map(1 -> "max",2-> "tom", 3 ->"john")
+
+  def main(args: Array[String]): Unit = {
+    println(lst.map(_ *2))
+    println(lst.map(x => x*2))
+    println(lst.map( x => "hi"+ x/0.2))
+    println(lst.map(x => "hi"*x))
+    println(mymap.map( x => "hi"+ x))
+
+    println(mymap.mapValues( x => "hi"+ x))
+    println("hello".map(_.toUpper))
+    println(List(List(1,2,3), List(3,4,5)))
+    println(List(List(1,2,3), List(3,4,5)).flatten)
+    println(lst.flatMap(x => List(x,x+1)))
+    println(lst.map(x => List(x,x+1)))
+
+    println(lst.filter(x=> x%2!=0))
+
+  }
+
+}
+
+sol-
+
+List(2, 4, 10, 16, 18, 12, 8)
+List(2, 4, 10, 16, 18, 12, 8)
+List(hi5.0, hi10.0, hi25.0, hi40.0, hi45.0, hi30.0, hi20.0)
+List(hi, hihi, hihihihihi, hihihihihihihihi, hihihihihihihihihi, hihihihihihi, hihihihi)
+List(hi(1,max), hi(2,tom), hi(3,john))
+MapView(<not computed>)
+HELLO
+List(List(1, 2, 3), List(3, 4, 5))
+List(1, 2, 3, 3, 4, 5)
+List(1, 2, 2, 3, 5, 6, 8, 9, 9, 10, 6, 7, 4, 5)
+List(List(1, 2), List(2, 3), List(5, 6), List(8, 9), List(9, 10), List(6, 7), List(4, 5))
+List(1, 5, 9)
+
+---reduce, fold or scan
+object reduce_fold_scan {
+  val lst: List[Int]= List(1,2,5,8,9,6,4)
+  val lst2 =List("A","B","C")
+  def main(args: Array[String]): Unit = {
+    println(lst2.reduceLeft(_+_))
+    println(lst.reduceLeft(_+_))
+    println("--")
+    println(lst.reduceLeft((x,y)=> {println(x+","+y); x+y})) //explicit method
+    println(lst2.reduceRight(_+_))
+    println(lst.reduceLeft(_-_))
+    println(lst.reduceRight(_-_))
+    println("--")
+    println(lst.reduceRight((x,y)=> {println(x+","+y); x-y}))
+    println("--")
+
+    println(lst.foldLeft(0)(_+_))
+    println(lst.foldLeft(100)(_+_))
+    println(lst2.foldLeft("z")(_+_))
+    println("--")
+    println(lst.scanLeft(100)(_ + _))
+    println(lst2.scanLeft("z")(_ + _))
+
+
+  }
+
+}
+
+sol-
+
+ABC
+35
+--
+1,2
+3,5
+8,8
+16,9
+25,6
+31,4
+35
+ABC
+-33
+3
+--
+6,4
+9,2
+8,7
+5,1
+2,4
+1,-2
+3
+--
+35
+135
+zABC
+--
+List(100, 101, 103, 108, 116, 125, 131, 135)
+List(z, zA, zAB, zABC)
+
+---class
+class User(var name :String, var age: Int)
+
+
+object classes {
+  def main(args: Array[String]): Unit = {
+    var user = new User("max",28)
+    println(user.name)
+    println(user.age)
+    user.name="Tom"; user.age=22
+    println(user.name)
+    println(user.age)
+
+  }
+
+sol-
+max
+28
+Tom
+22
+
+
+// var- getter , setter 
+// val - getter, no setter ie. we cannot reset the value of immutable variable
+// default - no setter, no getter if no var, val used for member variable
+
+class User(private var name :String, val age: Int) {
+  def printName{println(name)}
+}//constructor
+
+
+object classes {
+  def main(args: Array[String]): Unit = {
+    var user = new User("max",28)
+    user.printName
+    println(user.age)
+
+
+  }
+
+}
+
+sol-
+max
+28
+
+---
+
+class User(var name :String, val age: Int) {
+  def printName{println(name)}
+  def printAge{println(age)}
+}//constructor
+
+
+object classes {
+  def main(args: Array[String]): Unit = {
+    var user = new User("max",28)
+    user.printName
+    user.printAge
+
+
+  }
+
+}
+sol
+
+max
+28
+
+--// Auxilliary constructors- alternative constructor for class
+
+class User(var name : String , var age: Int) {
+  def this() {
+    this("Tom",32)
+  }
+  def this(name:String){
+    this(name,32)
+  }
+}
+
+
+object classes {
+  def main(args: Array[String]): Unit = {
+    var user1 = new User("max",28)
+    var user2= new User()
+    var user3 = new User("max")
+
+
+  }
+
+}
+
+--scala inheritance
+* classes in scala can be extended , creating new classes which retains charcateritics of the base class
+*this process is known as inheritance
+*involves a superclass and a subclass
+* the subclass inherits the members of the superclass, on top of which it can add its own members
+
+--
+package inheritance
+
+class polygon {
+  def area : Double= 0.0
+
+}
+object polygon{
+  def main(args: Array[String]): Unit = {
+    var poly = new polygon
+    var rect = new rectangle(55.2,20.0)
+    var tri = new triangle(55.2,20.0)
+    printArea(poly)
+    printArea(rect)
+    printArea(tri)
+  }
+  def printArea(p: polygon) {
+    println(p.area)
+  }
+}
+
+sol
+0.0
+1104.0
+552.0
+
+package inheritance
+
+class rectangle(var width:Double, var height: Double) extends polygon{
+  override def area : Double= width * height
+
+---Abstract class- it cannot be instantiated. An abstract class does a few things for the inheriting subclass:
+1.define methods which can be used by the inheriting subclass
+2.define abstract methods which the inheriting subclass must implement
+3. provide a common interface which allows the subclass to be interchanged with all other subclasses(inheritance).
+
+
+package inheritance
+
+abstract class polygon {
+  def area : Double= 0.0
+
+}
+object polygon{
+  def main(args: Array[String]): Unit = {
+   // var poly = new polygon
+    var rect = new rectangle(55.2,20.0)
+    var tri = new triangle(55.2,20.0)
+    //printArea(poly)
+    printArea(rect)
+    printArea(tri)
+  }
+  def printArea(p: polygon) {
+    println(p.area)
+  }
+}
+
+sol-
+1104.0
+552.0
+
+---lazy evaluation-an evaluation strategy which delays the evaluation of an expression until its value is needed
+class strict{
+  val e={
+    println("strict")
+    9
+  }
+
+}
+
+class lazy_eval{
+  lazy val l={
+    println("lazy")
+    9
+  }
+}
+object demo {
+  def main(args: Array[String]): Unit = {
+    val x = new strict
+    val y = new lazy_eval
+
+    println(x.e)
+    println(y.l)
+  }
+}
+
+sol-
+strict
+9
+lazy
+9
+
+----lazy eval
+
+object demo {
+  def method1(n: Int): Unit = {
+    println("method 1")
+    println(n)
+  }
+
+  def method2(n: =>Int): Unit = {
+    println("method 2")
+    println(n)
+  }
+  def main(args: Array[String]): Unit = {
+    val add=( a: Int, b: Int) =>{
+      println("add")
+      a + b
+    }
+
+    method1(add(5,6))
+    method2(add(5,6))
+  }
+}
+
+sol-
+add
+method 1
+11
+method 2
+add
+11
+
+
+interface- describes set of methods and properties that an implementing class must have
+--- triats- scala has no multiple inheritance, multi inheritnace cause diamond problem, traits are partially implemented intefaces
+
+package inheritance
+
+
+trait shape{
+  def color: String
+}
+abstract class polygon {
+  def area : Double
+
+}
+object polygon{
+  def main(args: Array[String]): Unit = {
+   // var poly = new polygon
+    var rect = new rectangle(55.2,20.0)
+    printArea(rect)
+    println(rect.color)
+    var tri = new triangle(55.2,20.0)
+    //printArea(poly)
+
+    printArea(tri)
+    println(tri.color)
+  }
+  def printArea(p: polygon) {
+    println(p.area)
+  }
+}
+
+sol-
+1104.0
+red
+552.0
+blue
+
+
+package inheritance
+
+class rectangle(var width:Double, var height: Double) extends polygon with shape {
+
+   override def area : Double= width * height
+
+   def color: String = "red"
+
+}
+
