@@ -1,0 +1,411 @@
+import joinDemo.{citiesDF, empDF}
+import org.apache.log4j.{Level, Logger}
+import org.apache.spark.sql.functions.{broadcast, sum}
+import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.sql.{SaveMode, SparkSession}
+import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
+
+
+object sql_ch extends App {
+  Logger.getLogger("org").setLevel(Level.ERROR)
+
+
+  val sparkConf = new SparkConf()
+  //sparkConf.set(args(0), args(1))
+  sparkConf.set("spark.app.name", "Dataframe Demo")
+  sparkConf.set("spark.master", "local[*]")
+
+
+  val spark = SparkSession.builder().config(sparkConf).getOrCreate()
+  val ordersdf = spark.read.option("header", true).option("inferschema", true).csv("C:\\Users\\Consultant\\Downloads\\members.csv")
+  val salesDF = spark.read.option("header", true).option("inferschema", true).csv("C:\\Users\\Consultant\\Downloads\\sales.csv")
+  val menuDF = spark.read.option("header", true).option("inferschema", true).csv("C:\\Users\\Consultant\\Downloads\\menu.csv")
+
+  val joinedDF = menuDF.join(salesDF, menuDF("product_id") === salesDF("product_id")).groupBy(menuDF("customer_id")).agg(sum(salesDF("price")).alias("spent_money"))
+  // Show the result
+  joinedDF.show()
+}
+
+Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
++-----------+-----------+
+|customer_id|spent_money|
++-----------+-----------+
+|          B|        148|
+|          C|         72|
+|          A|        152|
++-----------+-----------+
+
+
+2.
+import joinDemo.{citiesDF, empDF}
+import org.apache.log4j.{Level, Logger}
+import org.apache.spark.sql.functions.{broadcast, countDistinct, sum}
+import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.sql.{SaveMode, SparkSession}
+import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
+
+
+object sql_ch extends App {
+  Logger.getLogger("org").setLevel(Level.ERROR)
+
+
+  val sparkConf = new SparkConf()
+  //sparkConf.set(args(0), args(1))
+  sparkConf.set("spark.app.name", "Dataframe Demo")
+  sparkConf.set("spark.master", "local[*]")
+
+
+  val spark = SparkSession.builder().config(sparkConf).getOrCreate()
+  val ordersdf = spark.read.option("header", true).option("inferschema", true).csv("C:\\Users\\Consultant\\Downloads\\members.csv")
+  val salesDF = spark.read.option("header", true).option("inferschema", true).csv("C:\\Users\\Consultant\\Downloads\\sales.csv")
+  val menuDF = spark.read.option("header", true).option("inferschema", true).csv("C:\\Users\\Consultant\\Downloads\\menu.csv")
+
+  //val joinedDF = menuDF.join(salesDF, menuDF("product_id") === salesDF("product_id")).groupBy(salesDF("customer_id")).agg(sum(menuDF("price")).alias("spent_money"))
+  // Show the result
+  //joinedDF.show()
+  // Perform the aggregation
+  val customerVisitsDF = salesDF.groupBy("customer_id").agg(countDistinct("order_date").alias("customer_visit"))
+
+  // Show the result
+  customerVisitsDF.show()
+}
+
+Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
++-----------+--------------+
+|customer_id|customer_visit|
++-----------+--------------+
+|          B|             6|
+|          C|             2|
+|          A|             4|
++-----------+--------------+
+
+
+3.
+import joinDemo.{citiesDF, empDF}
+import org.apache.log4j.{Level, Logger}
+import org.apache.spark.sql.functions.{broadcast, col, countDistinct, sum}
+import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession, functions}
+import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
+
+
+object sql_ch extends App {
+  Logger.getLogger("org").setLevel(Level.ERROR)
+
+
+  val sparkConf = new SparkConf()
+  //sparkConf.set(args(0), args(1))
+  sparkConf.set("spark.app.name", "Dataframe Demo")
+  sparkConf.set("spark.master", "local[*]")
+
+
+  val spark = SparkSession.builder().config(sparkConf).getOrCreate()
+  val ordersdf = spark.read.option("header", true).option("inferschema", true).csv("C:\\Users\\Consultant\\Downloads\\members.csv")
+  val salesDF = spark.read.option("header", true).option("inferschema", true).csv("C:\\Users\\Consultant\\Downloads\\sales.csv")
+  val menuDF = spark.read.option("header", true).option("inferschema", true).csv("C:\\Users\\Consultant\\Downloads\\menu.csv")
+
+  val minOrderDates: DataFrame = salesDF
+    .groupBy("customer_id")
+    .agg(functions.min("order_date").alias("min_order_date"))
+
+  // Join with the menu DataFrame to get the product_name for the first order of each customer
+  val firstCustomerOrder: DataFrame = salesDF
+    .join(minOrderDates, Seq("customer_id"))
+    .join(menuDF, salesDF("product_id") === menuDF("product_id"))
+    .where(col("order_date") === col("min_order_date"))
+    .select("customer_id", "product_name")
+  // Show the result
+   firstCustomerOrder.show()
+}
+
+Using Spark's default log4j profile: org/apache/spark/log4j-defaults.properties
++-----------+------------+
+|customer_id|product_name|
++-----------+------------+
+|          A|       sushi|
+|          A|       curry|
+|          B|       curry|
+|          C|       ramen|
+|          C|       ramen|
+|          A|       sushi|
+|          A|       curry|
+|          B|       curry|
+|          C|       ramen|
+|          C|       ramen|
++-----------+------------+
+
+4.
+import joinDemo.{citiesDF, empDF}
+import org.apache.log4j.{Level, Logger}
+import org.apache.spark.sql.functions.{broadcast, col, count, countDistinct, desc, sum}
+import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession, functions}
+import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
+
+
+object sql_ch extends App {
+  Logger.getLogger("org").setLevel(Level.ERROR)
+
+
+  val sparkConf = new SparkConf()
+  //sparkConf.set(args(0), args(1))
+  sparkConf.set("spark.app.name", "Dataframe Demo")
+  sparkConf.set("spark.master", "local[*]")
+
+
+  val spark = SparkSession.builder().config(sparkConf).getOrCreate()
+  val ordersdf = spark.read.option("header", true).option("inferschema", true).csv("C:\\Users\\Consultant\\Downloads\\members.csv")
+  val salesDF = spark.read.option("header", true).option("inferschema", true).csv("C:\\Users\\Consultant\\Downloads\\sales.csv")
+  val menuDF = spark.read.option("header", true).option("inferschema", true).csv("C:\\Users\\Consultant\\Downloads\\menu.csv")
+
+  //val joinedDF = menuDF.join(salesDF, menuDF("product_id") === salesDF("product_id")).groupBy(salesDF("customer_id")).agg(sum(menuDF("price")).alias("spent_money"))
+  // Show the result
+  //joinedDF.show()
+  // Perform the aggregation
+  //val customerVisitsDF = salesDF.groupBy("customer_id").agg(countDistinct("order_date").alias("customer_visit"))
+  // Find the minimum order_date for each customer
+  // Perform the product items count analysis
+  val resultDF = salesDF
+    .join(menuDF, salesDF("product_id") === menuDF("product_id"))
+    .groupBy(menuDF("product_name"))
+    .agg(count(salesDF("product_id")).alias("items_count"))
+    .orderBy(desc("items_count"))
+
+  resultDF.show()
+
+
+}
+
++------------+-----------+
+|product_name|items_count|
++------------+-----------+
+|       ramen|         16|
+|       curry|          8|
+|       sushi|          6|
++------------+-----------+
+
+5. 
+import joinDemo.{citiesDF, empDF}
+import org.apache.log4j.{Level, Logger}
+import org.apache.spark.sql.functions.{broadcast, col, count, countDistinct, desc, sum}
+import org.apache.spark.{SparkConf, SparkContext}
+import org.apache.spark.sql.{DataFrame, SaveMode, SparkSession, functions}
+import org.apache.spark.sql.types.{IntegerType, StringType, StructField, StructType}
+import org.apache.spark.sql.expressions.Window
+import org.apache.spark.sql.functions._
+
+object sql_ch extends App {
+  Logger.getLogger("org").setLevel(Level.ERROR)
+
+
+  val sparkConf = new SparkConf()
+  //sparkConf.set(args(0), args(1))
+  sparkConf.set("spark.app.name", "Dataframe Demo")
+  sparkConf.set("spark.master", "local[*]")
+
+
+  val spark = SparkSession.builder().config(sparkConf).getOrCreate()
+  val ordersdf = spark.read.option("header", true).option("inferschema", true).csv("C:\\Users\\Consultant\\Downloads\\members.csv")
+  val salesDF = spark.read.option("header", true).option("inferschema", true).csv("C:\\Users\\Consultant\\Downloads\\sales.csv")
+  val menuDF = spark.read.option("header", true).option("inferschema", true).csv("C:\\Users\\Consultant\\Downloads\\menu.csv")
+
+  
+  // Perform the necessary joins and aggregations
+  val intermediateDF = salesDF
+  .join(menuDF, salesDF("product_id") === menuDF("product_id"))
+  .groupBy(salesDF("customer_ID"), menuDF("product_name"))
+  .agg(count(menuDF("product_id")).alias("product_count"))
+
+  // Use dense_rank window function to get the rank for each customer's product counts
+  val windowSpec = Window.partitionBy("customer_ID").orderBy(desc("product_count"))
+  val rankedDF = intermediateDF.withColumn("Rank1", dense_rank().over(windowSpec))
+
+  // Filter out rows with Rank1 equal to 1
+  val popularItemsDF = rankedDF.where("Rank1 = 1")
+
+  popularItemsDF.show()
+
+
+
+
+}
+
++-----------+------------+-------------+-----+
+|customer_ID|product_name|product_count|Rank1|
++-----------+------------+-------------+-----+
+|          B|       sushi|            4|    1|
+|          B|       ramen|            4|    1|
+|          B|       curry|            4|    1|
+|          C|       ramen|            6|    1|
+|          A|       ramen|            6|    1|
++-----------+------------+-------------+-----+
+
+
+6. 
+members = spark.read.csv(r"C:\Users\Consultant\Downloads\members.csv", header=True, inferSchema=True)
+sales = spark.read.csv(r"C:\Users\Consultant\Downloads\sales.csv", header=True, inferSchema=True)
+menu = spark.read.csv(r"C:\Users\Consultant\Downloads\menu.csv", header=True, inferSchema=True)
+#testing1 = spark.read.csv('./walmart-recruiting-store-sales-forecasting/test.csv', header=True, inferSchema=True)
+
+# Show the first few rows of each DataFrame (optional)
+members.show()
+sales.show()
+menu.show()
+
++-----------+----------+
+|customer_id| join_date|
++-----------+----------+
+|          A|2021-01-07|
+|          B|2021-01-09|
++-----------+----------+
+
++-----------+----------+----------+
+|customer_id|order_date|product_id|
++-----------+----------+----------+
+|          A|2021-01-01|         1|
+|          A|2021-01-01|         2|
+|          A|2021-01-07|         2|
+|          A|2021-01-10|         3|
+|          A|2021-01-11|         3|
+|          A|2021-01-11|         3|
+|          B|2021-01-01|         2|
+|          B|2021-01-02|         2|
+|          B|2021-01-04|         1|
+|          B|2021-01-11|         1|
+|          B|2021-01-16|         3|
+|          B|2021-02-01|         3|
+|          C|2021-01-01|         3|
+|          C|2021-01-01|         3|
+|          C|2021-01-07|         3|
+|          A|2021-01-01|         1|
+|          A|2021-01-01|         2|
+|          A|2021-01-07|         2|
+|          A|2021-01-10|         3|
+|          A|2021-01-11|         3|
++-----------+----------+----------+
+only showing top 20 rows
+
++----------+------------+-----+
+|product_id|product_name|price|
++----------+------------+-----+
+|         1|       sushi|   10|
+|         2|       curry|   15|
+|         3|       ramen|   12|
++----------+------------+-----+
+
+
+7.
+sales.createOrReplaceTempView("sales_view")
+# Create a SparkSession
+spark = SparkSession.builder \
+    .appName("Sales Analysis") \
+    .getOrCreate()
+​
+# Assuming you have already loaded the data into DataFrames named 'Menu' and 'Sales'
+​
+# Register DataFrames as temporary views
+menu.createOrReplaceTempView("menu_view")
+sales.createOrReplaceTempView("sales_view")
+​
+# Write the Spark SQL query
+spark.sql("""
+    SELECT S.customer_id, SUM(m.price) AS spent_money
+    FROM menu_view m
+    JOIN sales_view s
+    ON m.product_id = s.product_id
+    GROUP BY S.customer_id
+""").show()
++-----------+-----------+
+|customer_id|spent_money|
++-----------+-----------+
+|          B|        148|
+|          C|         72|
+|          A|        152|
++-----------+-----------+
+
+
+8.
+
+members.createOrReplaceTempView("members_view")
+spark.sql("""
+select * from(
+Select s.customer_ID ,
+       m.product_name, 
+       count(m.product_id) as product_count,
+       Dense_rank()  Over (Partition by s.Customer_ID order by Count(s.product_id) desc) as Rank1
+From sales_view s
+join menu_view m
+On m.product_id = s.product_id
+-- group by S.customer_id,S.product_id,M.product_name
+group by 1,2,s.product_id
+) as popular_items
+where Rank1 = 1
+""").show()
+​
++-----------+------------+-------------+-----+
+|customer_ID|product_name|product_count|Rank1|
++-----------+------------+-------------+-----+
+|          A|       ramen|            6|    1|
+|          B|       curry|            4|    1|
+|          B|       ramen|            4|    1|
+|          B|       sushi|            4|    1|
+|          C|       ramen|            6|    1|
++-----------+------------+-------------+-----+
+
+
+9.
+spark.sql("""
+select * from
+(Select S.customer_id,
+        M.product_name, mem.join_date,
+        Dense_rank() OVER (Partition by S.Customer_id Order by S.Order_date) as rank1
+From sales_view S
+Join menu_view M
+ON m.product_id = s.product_id
+JOIN members_view Mem
+ON Mem.Customer_id = S.customer_id
+Where S.order_date < Mem.join_date  
+) as pbc
+Where rank1 = 1
+""").show()
++-----------+------------+----------+-----+
+|customer_id|product_name| join_date|rank1|
++-----------+------------+----------+-----+
+|          A|       sushi|2021-01-07|    1|
+|          A|       curry|2021-01-07|    1|
+|          A|       sushi|2021-01-07|    1|
+|          A|       curry|2021-01-07|    1|
+|          B|       curry|2021-01-09|    1|
+|          B|       curry|2021-01-09|    1|
++-----------+------------+----------+-----+
+
+_view
+spark.sql("""
+select s.customer_id, count(s.product_id), sum(m.price) from sales_view s
+Join menu_view M
+ON m.product_id = s.product_id
+JOIN members_view Mem
+ON Mem.Customer_id = S.customer_id
+Where S.order_date < Mem.join_date 
+group by 1
+""").show()
++-----------+-----------------+----------+
+|customer_id|count(product_id)|sum(price)|
++-----------+-----------------+----------+
+|          B|                6|        80|
+|          A|                4|        50|
++-----------+-----------------+----------+
+
+spark.sql("""
+select s.customer_id, sum(case When m.product_id = 1 THEN m.price*20 Else m.price*10 End) as points from sales_view s 
+Join menu_view m
+ON m.product_id = s.product_id
+GROUP BY 1""").show()
++-----------+------+
+|customer_id|points|
++-----------+------+
+|          B|  1880|
+|          C|   720|
+|          A|  1720|
++-----------+------+
+
